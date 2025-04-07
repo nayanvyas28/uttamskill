@@ -5170,7 +5170,6 @@ p {
   position: absolute;
   bottom: -100px;
   left: -60px;
-  opacity: 0;
 }
 @media (max-width: 1199px) {
   .about-wrapper .about-image-items .about-image-3 {
