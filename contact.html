@@ -640,9 +640,7 @@
                         <div class="title text-center">
                             <h2 class="wow fadeInUp">Send Us Message</h2>
                         </div>
-                        <form
-                            action="https://docs.google.com/forms/d/e/1FAIpQLSdHakAKXiU8sbzSIBH3ygfb7VEPdUHyzGNYc5i1cy8uglAF_w/formResponse"
-                            id="contact-form" method="POST">
+                        <form action="" id="contact-form" method="POST">
                             <div class="row g-4">
                                 <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay=".2s">
                                     <div class="form-clt">
@@ -862,53 +860,41 @@
         <script src="assets/js/ajax-mail.js"></script>
         <!--<< Main.js >>-->
         <script src="assets/js/main.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('contact-form');
-                const submitButton = document.getElementById('submit-button');
-                const submitMessage = document.getElementById('submit-message');
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault(); // Prevent the default form submission
+    const form = document.getElementById('contact-form');
+    const formData = new FormData(form);
 
-                    // Show loading message
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'Submitting...';
-                    submitMessage.style.display = 'none';
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSdHakAKXiU8sbzSIBH3ygfb7VEPdUHyzGNYc5i1cy8uglAF_w/formResponse', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Bypass CORS restrictions
+    })
+    .then(() => {
+        // Always assume success (Google Forms does not return reliable responses)
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Form submitted successfully!',
+        });
+        form.reset();
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while submitting the form. Please try again.',
+        });
+        console.error(error);
+    });
+});
+</script>
 
-                    // Prepare form data
-                    const formData = new FormData(form);
 
-                    // Submit the form
-                    fetch(form.action, {
-                        method: 'POST',
-                        mode: 'no-cors', // Bypass CORS error
-                        body: formData,
-                    })
-                        .then(response => {
-                            // Show success message
-                            submitMessage.textContent = 'Thank you! Your message has been submitted.';
-                            submitMessage.style.color = 'green';
-                            submitMessage.style.display = 'block';
 
-                            // Reset the form
-                            form.reset();
-                        })
-                        .catch(error => {
-                            // Show error message
-                            submitMessage.textContent = 'Oops! Something went wrong. Please try again.';
-                            submitMessage.style.color = 'red';
-                            submitMessage.style.display = 'block';
-                        })
-                        .finally(() => {
-                            // Re-enable submit button
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'Submit';
-                        });
-                });
-            });
-
-        </script>
 
 
 </body>
